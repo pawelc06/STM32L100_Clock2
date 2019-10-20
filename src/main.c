@@ -67,6 +67,7 @@ extern volatile u8 mode, remoteClickedMode, remoteClickedUp, remoteClickedDown;
 
 unsigned char Num[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 volatile bool updated = true;
+volatile bool alarmRunning = false;
 volatile bool updateTemp = false;
 volatile bool updateDate = false;
 volatile bool rxMsgReady = false;
@@ -141,7 +142,7 @@ void GPIO_Config(void) {
 	/**************************************/
 
 	/* MCO config */
-/*
+	/*
 	 RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 	 GPIO_PinAFConfig(GPIOA, GPIO_PinSource8, GPIO_AF_MCO);
 	 RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
@@ -156,7 +157,7 @@ void GPIO_Config(void) {
 	 // pick one of the clocks to spew
 	 RCC_MCOConfig(RCC_MCOSource_SYSCLK,RCC_MCODiv_8); // Put on MCO pin the: System clock selected
 	 //RCC_MCOConfig(RCC_MCOSource_PLLCLK,RCC_MCODiv_1);
-*/
+	 */
 
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
@@ -205,45 +206,18 @@ int main(void) {
 
 	GPIO_Config();
 
-
 	//For sd card
 	SPI_Config();
-
-
 
 	/* Configure LED3 and LED4 on STM32L100C-Discovery */
 	STM_EVAL_LEDInit(LED3);
 	STM_EVAL_LEDInit(LED4);
 
-
-
-
-
 	delay_init(32); //32 MHz
-
 
 	GPIO_SetBits(GPIOC, GPIO_Pin_2);
 	delay_ms(1000);
 	GPIO_ResetBits(GPIOC, GPIO_Pin_2);
-
-
-
-	fresult = f_mount(&g_sFatFs, "0:0", 1);
-
-	//LCD_BMP("kasia.bmp");
-	//Gui_DrawFont_GBK24_bk(20,120, BLUE, WHITE, "1234 abcd");
-
-	/* tests */
-		//playWav("m8m.wav"); // fsamp 44100 Hz, 8 bit
-		//playWav("bj8.wav"); // fsamp 44100 Hz, 8 bit
-		//playWav("im16.wav");  // fsamp 44100 Hz, 16 bit
-		//playWavFromIntMemory(rooster3);
-
-	if(fresult == FR_OK){
-		playWav("m8m.wav"); //22kHz mono
-		//playWav("rct8t.wav"); // fsamp 11025 Hz, 8bit mono
-		//playWav("sine16.wav");
-	}
 
 	Lcd_Init2();
 
@@ -308,18 +282,33 @@ int main(void) {
 
 	NEC_Init();
 
-
-
-
 	displayDate();
 	LCD_Write_Curr_Temp(55, 170, tempStr);
-
 	mode = 0;
+	displayTime();
+
+	fresult = f_mount(&g_sFatFs, "0:0", 1);
+
+	//LCD_BMP("kasia.bmp");
+	//Gui_DrawFont_GBK24_bk(20,120, BLUE, WHITE, "1234 abcd");
+
+	/*
+	if (fresult == FR_OK) {
+		playWav("m8m.wav"); //22kHz mono
+		//playWav("rct8t.wav"); // fsamp 11025 Hz, 8bit mono
+		//playWav("sine16.wav");
+	}
+	*/
 
 	while (1) {
 		if (updated) {
 			displayTime();
 			updated = false;
+
+			if(alarmRunning){
+				alarmRunning = false;
+				playWav("m8m.wav");
+			}
 
 			if (updateDate) {
 				updateAndDisplayDate();
@@ -566,8 +555,8 @@ static void RTC_AlarmConfig(void) {
 			| RTC_Weekday_Sunday);
 
 	//RTC_AlarmStructure.RTC_AlarmDateWeekDay = RTC_Weekday_Wednesday;
-	RTC_AlarmStructure.RTC_AlarmTime.RTC_Hours = 0x00;
-	RTC_AlarmStructure.RTC_AlarmTime.RTC_Minutes = 0x01;
+	RTC_AlarmStructure.RTC_AlarmTime.RTC_Hours = 0x17;
+	RTC_AlarmStructure.RTC_AlarmTime.RTC_Minutes = 0x22;
 	RTC_AlarmStructure.RTC_AlarmTime.RTC_Seconds = 0x00;
 	RTC_SetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
 

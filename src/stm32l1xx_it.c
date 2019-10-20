@@ -42,6 +42,7 @@ extern uint8_t mode; //0 - normal, 1 - hours, 2 - minutes, 3 seconds
 extern uint8_t remoteClickedMode;
 extern uint8_t remoteClickedUp;
 extern uint8_t remoteClickedDown;
+extern bool alarmRunning;
 
 extern uint16_t ssTogle;
 volatile uint16_t sample;
@@ -202,6 +203,7 @@ void DMA1_Channel2_IRQHandler(void) {
 
 		DMA_ClearITPendingBit(DMA1_IT_TC2);
 
+		/*
 		if (toggleFlag) {
 			STM_EVAL_LEDOn(LED3); //C9
 		} else {
@@ -209,6 +211,7 @@ void DMA1_Channel2_IRQHandler(void) {
 		}
 
 		toggleFlag = !toggleFlag;
+		*/
 
 		//DMA1_Channel2->CMAR = (uint32_t)&buffer[0][(i++)%2];
 		//DAC_DMACmd(DAC_Channel_1, DISABLE);
@@ -500,6 +503,7 @@ void TIM2_IRQHandler(void) {
 void RTC_Alarm_IRQHandler(void) {
 	if (RTC_GetITStatus(RTC_IT_ALRA) != RESET) {
 		STM_EVAL_LEDToggle(LED3);
+		alarmRunning = true;
 		RTC_ClearITPendingBit(RTC_IT_ALRA);
 		EXTI_ClearITPendingBit(EXTI_Line17);
 	}
