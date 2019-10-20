@@ -218,13 +218,9 @@ int main(void) {
 
 
 
-	/* SysTick end of count event each 1ms */
-	//RCC_GetClocksFreq(&RCC_Clocks);
-	//SysTick_Config(RCC_Clocks.HCLK_Frequency / 1000);
-	//delay_init(72);//
-	//delay_init(16);
+
 	delay_init(32); //32 MHz
-	//delay_init(64); //64 MHz
+
 
 	GPIO_SetBits(GPIOC, GPIO_Pin_2);
 	delay_ms(1000);
