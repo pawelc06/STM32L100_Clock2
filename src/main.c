@@ -209,6 +209,8 @@ int main(void) {
 	//For sd card
 	SPI_Config();
 
+
+
 	/* Configure LED3 and LED4 on STM32L100C-Discovery */
 	STM_EVAL_LEDInit(LED3);
 	STM_EVAL_LEDInit(LED4);
@@ -222,6 +224,11 @@ int main(void) {
 	Lcd_Init2();
 
 	Lcd_Clear2(BLACK);
+
+	fresult = f_mount(&g_sFatFs, "0:0", 1);
+
+			//LCD_BMP("kasia.bmp");
+
 
 //	tft_puts(45, 20, "12:00", white, black);
 	setCurrentFont(&LetsgoDigital60ptFontInfo);
@@ -284,12 +291,10 @@ int main(void) {
 
 	displayDate();
 	LCD_Write_Curr_Temp(55, 170, tempStr);
-	mode = 0;
+
 	displayTime();
 
-	fresult = f_mount(&g_sFatFs, "0:0", 1);
 
-	//LCD_BMP("kasia.bmp");
 	//Gui_DrawFont_GBK24_bk(20,120, BLUE, WHITE, "1234 abcd");
 
 	/*
@@ -299,6 +304,10 @@ int main(void) {
 		//playWav("sine16.wav");
 	}
 	*/
+	mode = 0;
+
+	displayAlarm();
+	mode = 0;
 
 	while (1) {
 		if (updated) {
@@ -555,8 +564,8 @@ static void RTC_AlarmConfig(void) {
 			| RTC_Weekday_Sunday);
 
 	//RTC_AlarmStructure.RTC_AlarmDateWeekDay = RTC_Weekday_Wednesday;
-	RTC_AlarmStructure.RTC_AlarmTime.RTC_Hours = 0x17;
-	RTC_AlarmStructure.RTC_AlarmTime.RTC_Minutes = 0x22;
+	RTC_AlarmStructure.RTC_AlarmTime.RTC_Hours = 0x06;
+	RTC_AlarmStructure.RTC_AlarmTime.RTC_Minutes = 0x50;
 	RTC_AlarmStructure.RTC_AlarmTime.RTC_Seconds = 0x00;
 	RTC_SetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
 

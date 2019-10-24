@@ -26,8 +26,15 @@ uint32_t RGB_24to16(uint32_t color)
 	return( rgb );
 }
 
-void LCD_BMP(u8 * nazwa_pliku) {
+void LCD_BMP(uint16_t x,uint16_t y,u8 * nazwa_pliku) {
 u32 i = 0, j = 0, liczba_pikseli = 0, liczba_bajtow =0,ii;
+
+u32 width = 0;
+u32 heigth = 0;
+
+u16 layers;
+
+u16 bitsPerPixel;
 
 u16 piksel16;
 u8 temp[4];
@@ -51,20 +58,38 @@ fresult = f_read (&plik, &temp[0], 4, &ile_bajtow);
 // Odczytanie przesuniecia (offsetu) od poczatku pliku do
 // poczatku bajtow opisujacych obraz
 fresult = f_read (&plik, (u8*) &i, 4, &ile_bajtow);
+
+//size of information header
+fresult = f_read (&plik,  &i, 4, &ile_bajtow);
+
+
+//width
+fresult = f_read (&plik,  &width, 4, &ile_bajtow);
+
+//heigth
+fresult = f_read (&plik,  &heigth, 4, &ile_bajtow);
+
+//number of color layers
+fresult = f_read (&plik,  &layers, 2, &ile_bajtow);
+
+//bits per pixel
+fresult = f_read (&plik,  &bitsPerPixel, 2, &ile_bajtow);
+
 // Opuszczenie liczby bajtow od aktualnego miejsca
 // do poczatku danych obrazu, wartosc 14, bo odczytane zostalo
-// juz z pliku 2+4+4+4=14 bajtow
-//for(j = 0; j < (i - 14); j++){
-for(j = 0; j < 40; j++){
+// juz z pliku 2+4+4+4+4+4+4=26 bajtow
+//for(j = 0; j < (i - 26); j++){
+for(j = 0; j < 24; j++){
 	fresult = f_read (&plik, &temp[0], 1, &ile_bajtow);
 }
-// Liczba pikseli obrazu = (rozmiar pliku - offset)/2 bajty na pisel
-liczba_pikseli = (liczba_bajtow - i)/3;
+// Liczba pikseli obrazu = (rozmiar pliku - offset)/3 bajty na pisel
+liczba_pikseli = width*heigth;
 // Ustawienie parametrow pracy LCD (m. in. format BGR 5-6-5)
 //LCD_WriteReg(R3, 0x1008);
 //Write_Command(R3, 0x1008);
 
-setAddrWindow(0, 0,  X_MAX_PIXEL, Y_MAX_PIXEL);
+//setAddrWindow(0, 0,  X_MAX_PIXEL, Y_MAX_PIXEL);
+setAddrWindow(x, y,  x+width-1, y+heigth-1);
 
 // Odczyt bajtow z karty SD i wyslanie danych do LCD
 

@@ -13,7 +13,7 @@ typedef uint16_t u16;
 typedef uint32_t u32;
 
 uint32_t RGB_24to16(uint32_t color);
-void LCD_BMP(u8 * nazwa_pliku);
+void LCD_BMP(uint16_t x,uint16_t y,u8 * nazwa_pliku);
 
 
 #endif /* BITMAP_H_ */

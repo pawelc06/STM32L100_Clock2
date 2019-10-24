@@ -127,6 +127,7 @@ char readID(void);
 char Read_Register(char Addr, char xParameter);
 static uint8_t spi_readwrite(uint32_t spi, uint8_t data);
 void LCD_Write_TimeBCD(u16 xpos,u16 ypos,RTC_TimeTypeDef * RTC_TimeStructure1);
+void LCD_Write_AlarmTimeBCD2(u16 xpos,u16 ypos,RTC_AlarmTypeDef * RTC_AlarmStructure);
 void LCD_Write_Colon(u16 xpos,u16 ypos);
 void itoa_mod(uint16_t n, uint8_t s[]);
 void reverse(int8_t s[]);
