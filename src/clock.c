@@ -31,13 +31,11 @@ void displayDate() {
 void displayAlarm() {
 
 	RTC_AlarmTypeDef RTC_AlarmStructure;
-
+	RTC_WaitForSynchro(); // 2.
 	RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
+	RTC_WaitForSynchro(); // 2.
 
-	RTC_AlarmStructure.RTC_AlarmTime.RTC_Hours = 0x06;
-	RTC_AlarmStructure.RTC_AlarmTime.RTC_Minutes = 0x50;
-	RTC_AlarmStructure.RTC_AlarmTime.RTC_Seconds = 0x00;
-		//RTC_SetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
+
 
 	LCD_Write_AlarmTimeBCD2(100, 205, &RTC_AlarmStructure);
 

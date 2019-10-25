@@ -70,6 +70,7 @@ volatile bool updated = true;
 volatile bool alarmRunning = false;
 volatile bool updateTemp = false;
 volatile bool updateDate = false;
+volatile bool updateAlarm = false;
 volatile bool rxMsgReady = false;
 volatile char rxBuffer[BUFFER_SIZE];
 volatile uint16_t rxPointer = 0;
@@ -234,6 +235,11 @@ int main(void) {
 	setCurrentFont(&LetsgoDigital60ptFontInfo);
 	tft_puts(139, 0, ":", white, black);
 
+	setCurrentFont(&Verdana26ptFontInfo);
+	tft_puts(196, 205, ":", red, black);
+
+	LCD_BMP(100,205,"bell4.bmp");
+
 	init_usart_clocks();
 	init_usart_gpio();
 	init_usart();
@@ -307,6 +313,7 @@ int main(void) {
 	mode = 0;
 
 	displayAlarm();
+
 	mode = 0;
 
 	while (1) {
@@ -330,6 +337,13 @@ int main(void) {
 				updateTemp = false;
 			}
 
+
+
+		}
+
+		if(updateAlarm){
+			displayAlarm();
+			updateAlarm = false;
 		}
 
 	}

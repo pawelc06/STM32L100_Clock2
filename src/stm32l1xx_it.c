@@ -38,6 +38,7 @@
 volatile bool toggleFlag = false;
 extern bool updated;
 extern bool updateTemp;
+extern bool updateAlarm;
 extern uint8_t mode; //0 - normal, 1 - hours, 2 - minutes, 3 seconds
 extern uint8_t remoteClickedMode;
 extern uint8_t remoteClickedUp;
@@ -204,19 +205,18 @@ void DMA1_Channel2_IRQHandler(void) {
 		DMA_ClearITPendingBit(DMA1_IT_TC2);
 
 		/*
-		if (toggleFlag) {
-			STM_EVAL_LEDOn(LED3); //C9
-		} else {
-			STM_EVAL_LEDOff(LED3);
-		}
+		 if (toggleFlag) {
+		 STM_EVAL_LEDOn(LED3); //C9
+		 } else {
+		 STM_EVAL_LEDOff(LED3);
+		 }
 
-		toggleFlag = !toggleFlag;
-		*/
+		 toggleFlag = !toggleFlag;
+		 */
 
 		//DMA1_Channel2->CMAR = (uint32_t)&buffer[0][(i++)%2];
 		//DAC_DMACmd(DAC_Channel_1, DISABLE);
 		//DAC_Cmd(DAC_Channel_1, DISABLE);
-
 		/**********************************/
 		DMA1_Channel2->CCR = 0x0;
 		DMA1_Channel2->CNDTR = 0x200;
@@ -288,7 +288,9 @@ void TIM2_IRQHandler(void) {
 
 	RTC_TimeTypeDef RTC_TimeStructure;
 	RTC_DateTypeDef RTC_DateStructure;
+	RTC_AlarmTypeDef RTC_AlarmStructure;
 	uint8_t sec, min, hours;
+	uint8_t alarmMin, alarmHours;
 	uint32_t year, month, day, weekday;
 
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) {
@@ -300,7 +302,7 @@ void TIM2_IRQHandler(void) {
 		static uint8_t bstatem = 0; //ostatnie stany przycisku
 
 		if (remoteClickedMode) {
-			mode = (mode + 1) % 7;
+			mode = (mode + 1) % 9;
 			remoteClickedMode = 0;
 		}
 
@@ -311,8 +313,12 @@ void TIM2_IRQHandler(void) {
 			if (mode <= 2)
 				RTC_GetTime(RTC_Format_BCD, &RTC_TimeStructure);
 
-			if (mode > 2)
+			if (mode > 2 && mode < 7)
 				RTC_GetDate(RTC_Format_BIN, &RTC_DateStructure);
+
+			if (mode == 7 || mode == 8) {
+				RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
+			}
 
 			switch (mode) {
 			case 1: //hours
@@ -358,17 +364,44 @@ void TIM2_IRQHandler(void) {
 				RTC_DateStructure.RTC_WeekDay = weekday;
 				break;
 
+			case 7: //alarm hours
+				hours = RTC_AlarmStructure.RTC_AlarmTime.RTC_Hours;
+				hours = bcd2dec(hours);
+				hours = (hours + 1) % 24;
+				hours = dec2bcd(hours);
+				RTC_AlarmStructure.RTC_AlarmTime.RTC_Hours = hours;
+				break;
+
+			case 8: //alarm minutes
+				min = RTC_AlarmStructure.RTC_AlarmTime.RTC_Minutes;
+				min = bcd2dec(min);
+				min = (min + 1) % 60;
+				min = dec2bcd(min);
+				RTC_AlarmStructure.RTC_AlarmTime.RTC_Minutes = min;
+				break;
+
 			default:
 				break;
 			}
 
-			if (mode > 2)
+			if ((mode > 2) && (mode < 7))
 				RTC_SetDate(RTC_Format_BIN, &RTC_DateStructure);
 
 			if ((mode == 1) || (mode == 2)) {
 				RTC_SetTime(RTC_Format_BCD, &RTC_TimeStructure);
 				updated = true;
 			}
+
+			if (mode == 7 || mode == 8) {
+										RTC_WaitForSynchro(); // 1
+										RTC_AlarmCmd(RTC_Alarm_A | RTC_Alarm_B, DISABLE);
+										RTC_WaitForSynchro(); // 2.
+										RTC_SetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
+										RTC_WaitForSynchro(); //3
+										RTC_AlarmCmd(RTC_Alarm_A, ENABLE);
+										RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
+										updateAlarm = true;
+									}
 
 			/*
 			 if (toggleFlag) {
@@ -454,17 +487,54 @@ void TIM2_IRQHandler(void) {
 				RTC_DateStructure.RTC_WeekDay = weekday;
 				break;
 
+			case 7: //alarm hours
+				hours = RTC_AlarmStructure.RTC_AlarmTime.RTC_Hours;
+				hours = bcd2dec(hours);
+				if (hours > 0) {
+					hours = hours - 1;
+				} else {
+					hours = 23;
+				}
+				hours = dec2bcd(hours);
+
+				RTC_AlarmStructure.RTC_AlarmTime.RTC_Hours = hours;
+				break;
+
+			case 8: //alarm minutes
+				min = RTC_AlarmStructure.RTC_AlarmTime.RTC_Minutes;
+				min = bcd2dec(min);
+				if (min > 0) {
+					min = min - 1;
+				} else {
+					min = 59;
+				}
+
+				min = dec2bcd(min);
+				RTC_AlarmStructure.RTC_AlarmTime.RTC_Minutes = min;
+				break;
+
 			default:
 				break;
 			}
 
-			if (mode > 2)
+			if ((mode > 2) && (mode < 7))
 				RTC_SetDate(RTC_Format_BIN, &RTC_DateStructure);
 
 			if ((mode == 1) || (mode == 2)) {
 				RTC_SetTime(RTC_Format_BCD, &RTC_TimeStructure);
 				updated = true;
 			}
+
+			if (mode == 7 || mode == 8) {
+							RTC_WaitForSynchro(); // 1
+							RTC_AlarmCmd(RTC_Alarm_A | RTC_Alarm_B, DISABLE);
+							RTC_WaitForSynchro(); // 2.
+							RTC_SetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
+							RTC_WaitForSynchro(); //3
+							RTC_AlarmCmd(RTC_Alarm_A, ENABLE);
+							//RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
+							updateAlarm = true;
+						}
 			remoteClickedDown = 0;
 
 			return;
@@ -475,7 +545,7 @@ void TIM2_IRQHandler(void) {
 				| (MODE_BUTTON_GPIO_PORT->IDR >> BUTTON_MODE & 1)) == 1)) {
 			//if(remoteClickedMode || ((bstatem = (bstatem << 1 & 0xf) || (MODE_BUTTON_GPIO_PORT->IDR >> BUTTON_MODE & 1)) == 1)) {
 
-			mode = (mode + 1) % 7;
+			mode = (mode + 1) % 9;
 
 			if ((mode == 0) || (mode == 6))
 				displayDate();

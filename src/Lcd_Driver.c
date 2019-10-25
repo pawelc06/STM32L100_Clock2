@@ -1208,6 +1208,11 @@ void LCD_Write_TimeBCD2(u16 xpos, u16 ypos,
 
 		displayDate();
 		break;
+	case 7:
+	case 8:
+		displayAlarm();
+		break;
+
 	default:
 		break;
 
@@ -1269,7 +1274,7 @@ void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
 	//setCurrentFont(&LetsgoDigital60ptFontInfo);
 	setCurrentFont(&Verdana26ptFontInfo);
 	//tft_puts(xpos, ypos, "!", color, bkColor);
-	LCD_BMP(xpos, ypos,"bell4.bmp");
+
 	xpos = xpos + 2 * short_break;
 
 	//mode = 0;
@@ -1286,14 +1291,14 @@ void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
 		tft_puts(xpos, ypos, colon, color, bkColor);
 		xpos = xpos + short_break/2;
 
-		if (last_minutes != mm)
+		if (last_alarm_minutes != mm)
 			tft_puts(xpos, ypos, datam, color, bkColor);
 
 		last_alarm_hours = hh;
 		last_alarm_minutes = mm;
 
 		break;
-	case 1:
+	case 7: //hours
 		if (blink) {
 
 			tft_puts(xpos, ypos, "  ", color, bkColor);
@@ -1309,19 +1314,19 @@ void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
 		}
 
 		//colon
-		tft_puts(xpos, ypos, colon, color, bkColor);
+		//tft_puts(xpos, ypos, colon, color, bkColor);
 
-		xpos = xpos + short_break;
+		xpos = xpos + short_break/2;
 		tft_puts(xpos, ypos, datam, color, bkColor);
 		break;
-	case 2:
+	case 8: //minutes
 		tft_puts(xpos, ypos, datah, color, bkColor);
 
 		xpos = xpos + 2 * short_break;
 		//colon
 		//tft_puts(xpos, ypos, colon, color, bkColor);
 
-		xpos = xpos + short_break;
+		xpos = xpos + short_break/2;
 		if (blink) {
 
 			tft_puts(xpos, ypos, "  ", color, bkColor);
@@ -1332,38 +1337,13 @@ void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
 
 		}
 		break;
-	case 3:
-	case 4:
-	case 5:
-	case 6:
-		if (last_hours != hh) {
-			tft_puts(xpos, ypos, datah, color, bkColor);
 
-			//if((last_hours == 23) && (hh==0))
-
-		}
-
-		xpos = xpos + 2 * short_break;
-
-		//colon
-		//tft_puts(xpos, ypos, colon, color, bkColor);
-		xpos = xpos + short_break;
-
-		if (last_minutes != mm)
-			tft_puts(xpos, ypos, datam, color, bkColor);
-
-		last_hours = hh;
-		last_minutes = mm;
-
-		displayDate();
-		break;
 	default:
 		break;
 
 	}
 
-	if (!hh && !mm && !ss)
-		updateDate = true;
+
 
 }
 
