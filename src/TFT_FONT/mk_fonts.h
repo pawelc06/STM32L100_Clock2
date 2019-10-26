@@ -51,10 +51,6 @@ extern const FONT_INFO Tahoma48ptFontInfo;
 
 
 
-// Font data for Tahoma 8pt
-extern const uint8_t Tahoma8ptBitmaps[];
-extern const FONT_CHAR_INFO Tahoma8ptDescriptors[];
-extern const FONT_INFO DefaultFontInfo;
 
 
 // Font data for Courier New 10pt_bold
@@ -73,15 +69,20 @@ extern const FONT_CHAR_INFO LetsgoDigital48ptDescriptors[];
 extern const FONT_INFO LetsgoDigital48ptFontInfo;
 
 
-// Font data for Calibri 18pt
-extern const FONT_INFO Calibri18ptFontInfo;
 
-extern const FONT_INFO LEDBOARD36ptFontInfo;
+
+//extern const FONT_INFO LEDBOARD36ptFontInfo;
 
 // Font data for Verdana 26pt
 extern const uint8_t Verdana26ptBitmaps[];
 extern const FONT_CHAR_INFO Verdana26ptDescriptors[];
 extern const FONT_INFO Verdana26ptFontInfo;
+
+// Font data for Verdana 22pt
+extern const uint8_t Verdana22ptBitmaps[];
+extern const FONT_CHAR_INFO Verdana22ptDescriptors[];
+extern const FONT_INFO Verdana22ptFontInfo;
+
 
 
 

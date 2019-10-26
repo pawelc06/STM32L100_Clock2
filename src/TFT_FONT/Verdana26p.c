@@ -1,10 +1,10 @@
 
 #include "mk_fonts.h"
 
-//  Font data for Verdana 26pt  
+//  Font data for Verdana 26pt
 
-// Character bitmaps for Verdana 26pt  
-const uint8_t Verdana26ptBitmaps[] = 
+// Character bitmaps for Verdana 26pt
+const uint8_t Verdana26ptBitmaps[] =
 {
      // @0   [!]   (3 px wide)
      0x00,  //          //
@@ -301,7 +301,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x0F, 0x00,  //       ####      //
      0x07, 0x80,  //        ####     //
      0x03, 0xC0,  //         ####    //
- 
+
      // @700   [)]   (10 px wide)
      0x00, 0x00,  //                 //
      0xF0, 0x00,  //   ####          //
@@ -338,7 +338,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x3C, 0x00,  //     ####        //
      0x78, 0x00,  //    ####         //
      0xF0, 0x00,  //   ####          //
- 
+
      // @770   [*]   (16 px wide)
      0x00, 0x00,  //                       //
      0x01, 0x80,  //          ##           //
@@ -375,7 +375,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00,  //                       //
      0x00, 0x00,  //                       //
      0x00, 0x00,  //                       //
- 
+
      // @840   [+]   (21 px wide)
      0x00, 0x00, 0x00,  //                            //
      0x00, 0x00, 0x00,  //                            //
@@ -745,7 +745,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                          //
      0x00, 0x00, 0x00,  //                          //
      0x00, 0x00, 0x00,  //                          //
- 
+
      // @1610   [5]   (17 px wide)
      0x00, 0x00, 0x00,  //                        //
      0x00, 0x00, 0x00,  //                        //
@@ -782,7 +782,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                        //
      0x00, 0x00, 0x00,  //                        //
      0x00, 0x00, 0x00,  //                        //
- 
+
      // @1715   [6]   (18 px wide)
      0x00, 0x00, 0x00,  //                         //
      0x00, 0x00, 0x00,  //                         //
@@ -819,7 +819,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                         //
      0x00, 0x00, 0x00,  //                         //
      0x00, 0x00, 0x00,  //                         //
- 
+
      // @1820   [7]   (17 px wide)
      0x00, 0x00, 0x00,  //                        //
      0x00, 0x00, 0x00,  //                        //
@@ -893,7 +893,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                         //
      0x00, 0x00, 0x00,  //                         //
      0x00, 0x00, 0x00,  //                         //
- 
+
      // @2030   [9]   (18 px wide)
      0x00, 0x00, 0x00,  //                         //
      0x00, 0x00, 0x00,  //                         //
@@ -930,7 +930,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                         //
      0x00, 0x00, 0x00,  //                         //
      0x00, 0x00, 0x00,  //                         //
- 
+
      // @2135   [:]   (4 px wide)
      0x00,  //           //
      0x00,  //           //
@@ -967,7 +967,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00,  //           //
      0x00,  //           //
      0x00,  //           //
- 
+
      // @2170   [;]   (7 px wide)
      0x00,  //              //
      0x00,  //              //
@@ -1004,7 +1004,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0xE0,  //   ###        //
      0xE0,  //   ###        //
      0x00,  //              //
- 
+
      // @2205   [<]   (20 px wide)
      0x00, 0x00, 0x00,  //                           //
      0x00, 0x00, 0x00,  //                           //
@@ -1041,7 +1041,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                           //
      0x00, 0x00, 0x00,  //                           //
      0x00, 0x00, 0x00,  //                           //
- 
+
      // @2310   [=]   (20 px wide)
      0x00, 0x00, 0x00,  //                           //
      0x00, 0x00, 0x00,  //                           //
@@ -1078,7 +1078,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                           //
      0x00, 0x00, 0x00,  //                           //
      0x00, 0x00, 0x00,  //                           //
- 
+
      // @2415   [>]   (20 px wide)
      0x00, 0x00, 0x00,  //                           //
      0x00, 0x00, 0x00,  //                           //
@@ -1115,7 +1115,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                           //
      0x00, 0x00, 0x00,  //                           //
      0x00, 0x00, 0x00,  //                           //
- 
+
      // @2520   [?]   (14 px wide)
      0x00, 0x00,  //                     //
      0x00, 0x00,  //                     //
@@ -1300,7 +1300,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                            //
      0x00, 0x00, 0x00,  //                            //
      0x00, 0x00, 0x00,  //                            //
- 
+
      // @3045   [D]   (22 px wide)
      0x00, 0x00, 0x00,  //                             //
      0x00, 0x00, 0x00,  //                             //
@@ -1818,7 +1818,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x01, 0xFF, 0x80,  //                  ##########    //
      0x00, 0x00, 0xFF, 0x80,  //                   #########    //
      0x00, 0x00, 0x3F, 0x80,  //                     #######    //
- 
+
      // @4445   [R]   (21 px wide)
      0x00, 0x00, 0x00,  //                            //
      0x00, 0x00, 0x00,  //                            //
@@ -1966,7 +1966,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                           //
      0x00, 0x00, 0x00,  //                           //
      0x00, 0x00, 0x00,  //                           //
- 
+
      // @4865   [V]   (24 px wide)
      0x00, 0x00, 0x00,  //                               //
      0x00, 0x00, 0x00,  //                               //
@@ -2003,7 +2003,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                               //
      0x00, 0x00, 0x00,  //                               //
      0x00, 0x00, 0x00,  //                               //
- 
+
      // @4970   [W]   (31 px wide)
      0x00, 0x00, 0x00, 0x00,  //                                      //
      0x00, 0x00, 0x00, 0x00,  //                                      //
@@ -2040,7 +2040,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00, 0x00,  //                                      //
      0x00, 0x00, 0x00, 0x00,  //                                      //
      0x00, 0x00, 0x00, 0x00,  //                                      //
- 
+
      // @5110   [X]   (22 px wide)
      0x00, 0x00, 0x00,  //                             //
      0x00, 0x00, 0x00,  //                             //
@@ -2077,7 +2077,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                             //
      0x00, 0x00, 0x00,  //                             //
      0x00, 0x00, 0x00,  //                             //
- 
+
      // @5215   [Y]   (21 px wide)
      0x00, 0x00, 0x00,  //                            //
      0x00, 0x00, 0x00,  //                            //
@@ -2114,7 +2114,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                            //
      0x00, 0x00, 0x00,  //                            //
      0x00, 0x00, 0x00,  //                            //
- 
+
      // @5320   [Z]   (20 px wide)
      0x00, 0x00, 0x00,  //                           //
      0x00, 0x00, 0x00,  //                           //
@@ -2188,7 +2188,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0xE0, 0x00,  //   ###          //
      0xFF, 0x80,  //   #########    //
      0xFF, 0x80,  //   #########    //
- 
+
      // @5495   [\]   (15 px wide)
      0x00, 0x00,  //                      //
      0xE0, 0x00,  //   ###                //
@@ -2225,7 +2225,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x0E,  //               ###    //
      0x00, 0x00,  //                      //
      0x00, 0x00,  //                      //
- 
+
      // @5565   []]   (9 px wide)
      0x00, 0x00,  //                //
      0xFF, 0x80,  //   #########    //
@@ -2262,7 +2262,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x03, 0x80,  //         ###    //
      0xFF, 0x80,  //   #########    //
      0xFF, 0x80,  //   #########    //
- 
+
      // @5635   [^]   (22 px wide)
      0x00, 0x00, 0x00,  //                             //
      0x00, 0x00, 0x00,  //                             //
@@ -3113,7 +3113,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00,  //                   //
      0x00, 0x00,  //                   //
      0x00, 0x00,  //                   //
- 
+
      // @7560   [u]   (16 px wide)
      0x00, 0x00,  //                       //
      0x00, 0x00,  //                       //
@@ -3150,7 +3150,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00,  //                       //
      0x00, 0x00,  //                       //
      0x00, 0x00,  //                       //
- 
+
      // @7630   [v]   (19 px wide)
      0x00, 0x00, 0x00,  //                          //
      0x00, 0x00, 0x00,  //                          //
@@ -3187,7 +3187,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                          //
      0x00, 0x00, 0x00,  //                          //
      0x00, 0x00, 0x00,  //                          //
- 
+
      // @7735   [w]   (27 px wide)
      0x00, 0x00, 0x00, 0x00,  //                                  //
      0x00, 0x00, 0x00, 0x00,  //                                  //
@@ -3224,7 +3224,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00, 0x00,  //                                  //
      0x00, 0x00, 0x00, 0x00,  //                                  //
      0x00, 0x00, 0x00, 0x00,  //                                  //
- 
+
      // @7875   [x]   (19 px wide)
      0x00, 0x00, 0x00,  //                          //
      0x00, 0x00, 0x00,  //                          //
@@ -3261,7 +3261,7 @@ const uint8_t Verdana26ptBitmaps[] =
      0x00, 0x00, 0x00,  //                          //
      0x00, 0x00, 0x00,  //                          //
      0x00, 0x00, 0x00,  //                          //
- 
+
      // @7980   [y]   (19 px wide)
      0x00, 0x00, 0x00,  //                          //
      0x00, 0x00, 0x00,  //                          //
@@ -3523,8 +3523,8 @@ const uint8_t Verdana26ptBitmaps[] =
 	      0x00, 0x00, 0x00,  //                             //
 };
  
-// Character descriptors for Verdana 26pt 
-// { [Char width in bits], [Offset into Verdana26ptCharBitmaps in bytes] } 
+// Character descriptors for Verdana 26pt
+// { [Char width in bits], [Offset into Verdana26ptCharBitmaps in bytes] }
 const FONT_CHAR_INFO Verdana26ptDescriptors[] =
 {
     { 3,0 },		// !  (33)
@@ -3623,14 +3623,14 @@ const FONT_CHAR_INFO Verdana26ptDescriptors[] =
     { 22,8330 },		// ~  (126)
 };
  
-// Font information for Verdana 26pt 
+// Font information for Verdana 26pt
 const FONT_INFO Verdana26ptFontInfo =
 {
-    35,  // Character height 
+    35,  // Character height
     '!',  //  Start character 
     4,  //  number of pixels of interspace between characters
     33,  // number of pixels of space character
-    Verdana26ptDescriptors, // Character descriptor array 
-    Verdana26ptBitmaps, // Character bitmap array 
+    Verdana26ptDescriptors, // Character descriptor array
+    Verdana26ptBitmaps, // Character bitmap array
     0 // (Pointer) Font filename saved on SD card or 0 (null) otherwise 
 };

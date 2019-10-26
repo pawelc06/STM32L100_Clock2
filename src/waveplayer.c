@@ -13,7 +13,7 @@
 extern bool updated;
 extern uint8_t * wavPtr;
 extern uint8_t * wavPtrBegin;
-
+extern uint8_t playTime;
 
 
 #ifdef SAMPLE_WIDTH_16
@@ -196,8 +196,9 @@ void playWav(uint8_t * name) {
 
 	canRead = false;
 	i = 0;
+	playTime=0;
 
-	while (1) {
+	while (playTime<60) {
 		if (canRead == true) {
 #ifdef SAMPLE_WIDTH_16
 			f_read(&plik, &buffer[i ^ 0x01][0], SAMPLE_BUFFER_SIZE * 2,

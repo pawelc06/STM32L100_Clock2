@@ -50,6 +50,8 @@ volatile uint16_t sample;
 volatile uint8_t i;
 volatile uint8_t * wavPtr;
 volatile uint8_t * wavPtrBegin;
+volatile uint8_t playTime=0;
+
 FIL plik;
 UINT bytesToRead, bytesRead;
 
@@ -184,6 +186,7 @@ void RTC_WKUP_IRQHandler(void) {
 		updated = true;
 		//displayTime();
 		ssTogle++;
+		playTime++;
 		if (ssTogle % 60 == 0) {
 			updateTemp = true;
 		}
@@ -306,19 +309,21 @@ void TIM2_IRQHandler(void) {
 			remoteClickedMode = 0;
 		}
 
+		if (mode <= 2)
+						RTC_GetTime(RTC_Format_BCD, &RTC_TimeStructure);
+
+					if (mode > 2 && mode < 7)
+						RTC_GetDate(RTC_Format_BIN, &RTC_DateStructure);
+
+					if (mode == 7 || mode == 8) {
+						RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
+					}
+
 		if (remoteClickedUp
 				|| ((bstateu = (bstateu << 1 & 0xf)
 						| (UP_BUTTON_GPIO_PORT->IDR >> BUTTON_UP & 1)) == 1)) {
 
-			if (mode <= 2)
-				RTC_GetTime(RTC_Format_BCD, &RTC_TimeStructure);
 
-			if (mode > 2 && mode < 7)
-				RTC_GetDate(RTC_Format_BIN, &RTC_DateStructure);
-
-			if (mode == 7 || mode == 8) {
-				RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
-			}
 
 			switch (mode) {
 			case 1: //hours
@@ -394,12 +399,12 @@ void TIM2_IRQHandler(void) {
 
 			if (mode == 7 || mode == 8) {
 										RTC_WaitForSynchro(); // 1
-										RTC_AlarmCmd(RTC_Alarm_A | RTC_Alarm_B, DISABLE);
+										RTC_AlarmCmd(RTC_Alarm_A , DISABLE);
 										RTC_WaitForSynchro(); // 2.
 										RTC_SetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
 										RTC_WaitForSynchro(); //3
 										RTC_AlarmCmd(RTC_Alarm_A, ENABLE);
-										RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
+
 										updateAlarm = true;
 									}
 
@@ -425,11 +430,7 @@ void TIM2_IRQHandler(void) {
 			// byl zwolniony, teraz jest wcisniety - zmiana stanu LED
 			//LED_PORT->ODR ^= 1 << GREEN_LED_BIT | 1 << BLUE_LED_BIT;
 
-			if (mode <= 2)
-				RTC_GetTime(RTC_Format_BCD, &RTC_TimeStructure);
 
-			if (mode > 2)
-				RTC_GetDate(RTC_Format_BIN, &RTC_DateStructure);
 
 			switch (mode) {
 			case 1:
@@ -547,8 +548,13 @@ void TIM2_IRQHandler(void) {
 
 			mode = (mode + 1) % 9;
 
-			if ((mode == 0) || (mode == 6))
+
+			if ((mode == 0) || (mode == 6)){
+
 				displayDate();
+				displayTime();
+				displayAlarm();
+			}
 
 			if (toggleFlag) {
 				STM_EVAL_LEDOn(LED4);

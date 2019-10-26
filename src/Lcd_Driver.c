@@ -928,6 +928,8 @@ void writeWeekDay(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct,
 	}
 }
 
+
+
 void LCD_Write_Curr_Temp(u16 xpos, u16 ypos, char *tempStr) {
 	setCurrentFont(&Verdana26ptFontInfo);
 	tft_puts(xpos, ypos, tempStr, white, black);
@@ -935,7 +937,7 @@ void LCD_Write_Curr_Temp(u16 xpos, u16 ypos, char *tempStr) {
 
 void LCD_Write_Date(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct) {
 	uint8_t year, month, day, weekday;
-	const u16 short_break = 22;
+	const u16 short_break = 17;
 	uint8_t yearStr[5];
 	uint8_t mStr[5];
 	uint8_t dStr[5];
@@ -954,7 +956,7 @@ void LCD_Write_Date(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct) {
 	itoa_mod((uint16_t) month, mStr);
 	itoa_mod((uint16_t) day, dStr);
 
-	setCurrentFont(&Verdana26ptFontInfo);
+	setCurrentFont(&Verdana22ptFontInfo);
 	//setCurrentFont( &DefaultFontInfo);
 
 	blink = ((0x000F & ssTogle) % 2);
@@ -983,7 +985,9 @@ void LCD_Write_Date(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct) {
 
 		ypos += 32;
 
-		writeWeekDay(xposInit, ypos, RTC_DateStruct, 1);
+
+
+		//writeWeekDay(xposInit, ypos, RTC_DateStruct, 1);
 
 		break;
 
@@ -1065,7 +1069,7 @@ void LCD_Write_Date(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct) {
 		xpos = xpos + 2 * short_break;
 		xpos = xpos + short_break;
 		ypos += 32;
-		writeWeekDay(xposInit, ypos, RTC_DateStruct, blink);
+		//writeWeekDay(xposInit, ypos, RTC_DateStruct, blink);
 		break;
 	default:
 		break;
@@ -1230,9 +1234,9 @@ void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
 	unsigned char datah[4];
 	unsigned char datam[3];
 
-	unsigned colon[2];
 
-	uint8_t short_break = 24;
+
+	uint8_t short_break = 21;
 
 	u16 hh = 14;
 	u16 mm = 33;
@@ -1256,13 +1260,7 @@ void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
 
 	datah[2] = 0;
 
-	if (blink) {
-		colon[0] = ':';
-	} else {
-		colon[0] = ' ';
-	}
 
-	colon[1] = 0;
 
 	datam[0] = (mm >> 4) + 48;
 	datam[1] = (0x000F & mm) + 48;
@@ -1288,8 +1286,8 @@ void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
 		}
 
 		xpos = xpos + 2 * short_break;
-		tft_puts(xpos, ypos, colon, color, bkColor);
-		xpos = xpos + short_break/2;
+		//tft_puts(xpos, ypos, colon, color, bkColor);
+		xpos = xpos + short_break;
 
 		if (last_alarm_minutes != mm)
 			tft_puts(xpos, ypos, datam, color, bkColor);
@@ -1316,7 +1314,7 @@ void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
 		//colon
 		//tft_puts(xpos, ypos, colon, color, bkColor);
 
-		xpos = xpos + short_break/2;
+		xpos = xpos + short_break;
 		tft_puts(xpos, ypos, datam, color, bkColor);
 		break;
 	case 8: //minutes
@@ -1326,7 +1324,7 @@ void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
 		//colon
 		//tft_puts(xpos, ypos, colon, color, bkColor);
 
-		xpos = xpos + short_break/2;
+		xpos = xpos + short_break;
 		if (blink) {
 
 			tft_puts(xpos, ypos, "  ", color, bkColor);

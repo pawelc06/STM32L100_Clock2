@@ -24,20 +24,29 @@ void displayDate() {
 
 	day = RTC_DateStruct.RTC_Date;
 
-	LCD_Write_Date(55, 100, &RTC_DateStruct);
+	LCD_Write_Date(48, 85, &RTC_DateStruct);
 
 }
 
 void displayAlarm() {
 
 	RTC_AlarmTypeDef RTC_AlarmStructure;
-	RTC_WaitForSynchro(); // 2.
+	//RTC_WaitForSynchro(); // 2.
 	RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
-	RTC_WaitForSynchro(); // 2.
+	//RTC_WaitForSynchro(); // 2.
 
 
 
 	LCD_Write_AlarmTimeBCD2(100, 205, &RTC_AlarmStructure);
+
+}
+
+void writeSunriseSunsetTime(u16 xpos, u16 ypos, char *sunriseStr,char * sunsetStr) {
+
+
+			tft_puts(xpos, ypos, sunriseStr, white, black);
+			xpos+=160;
+			tft_puts(xpos, ypos, sunsetStr, white, black);
 
 }
 
@@ -175,6 +184,58 @@ uint8_t getMonthNum(char *buf) {
 		return 11;
 	if (!strcmp(buf, "Dec"))
 		return 12;
+
+}
+
+char dow(int y, char m, char d)
+   {
+       static char t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+       y -= m < 3;
+       return (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
+   }
+
+
+char NthDate(int year, char month, char DOW, char NthWeek){
+  char targetDate = 1;
+  char firstDOW = dow(year,month,targetDate);
+  while (firstDOW != DOW){
+    firstDOW = (firstDOW+1)%7;
+    targetDate++;
+  }
+  //Adjust for weeks
+  targetDate += (NthWeek-1)*7;
+  return targetDate;
+}
+
+bool isDST(struct tm timeToCheck){
+	char lastSundayDay;
+	if(timeToCheck.tm_mon >=3 && timeToCheck.tm_mon <=8 ){ //DST is from April to September always
+		return true;
+	}
+
+	if((timeToCheck.tm_mon >=0 && timeToCheck.tm_mon <=1) || (timeToCheck.tm_mon >=10 && timeToCheck.tm_mon <=11)){ //no DST
+			return false;
+	}
+
+	if((timeToCheck.tm_mon == 3)){ //Date in April
+		lastSundayDay = NthDate(timeToCheck.tm_year+1900, timeToCheck.tm_mon+1, 0, 4);
+		if(timeToCheck.tm_mday < lastSundayDay){
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	if((timeToCheck.tm_mon == 9)){ //Date in October
+		lastSundayDay = NthDate(timeToCheck.tm_year+1900, timeToCheck.tm_mon+1, 0, 4);
+		if(timeToCheck.tm_mday < lastSundayDay){
+					return true;
+				} else {
+					return false;
+				}
+	}
+
+
 
 }
 
