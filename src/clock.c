@@ -24,7 +24,7 @@ void displayDate() {
 
 	day = RTC_DateStruct.RTC_Date;
 
-	LCD_Write_Date(48, 85, &RTC_DateStruct);
+	LCD_Write_Date(58, 85, &RTC_DateStruct);
 
 }
 
