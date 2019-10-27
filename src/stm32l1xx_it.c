@@ -546,6 +546,12 @@ void TIM2_IRQHandler(void) {
 				| (MODE_BUTTON_GPIO_PORT->IDR >> BUTTON_MODE & 1)) == 1)) {
 			//if(remoteClickedMode || ((bstatem = (bstatem << 1 & 0xf) || (MODE_BUTTON_GPIO_PORT->IDR >> BUTTON_MODE & 1)) == 1)) {
 
+
+			if(playTime>0){ //alarm switch off
+				playTime=60;
+				return;
+			}
+
 			mode = (mode + 1) % 9;
 
 
