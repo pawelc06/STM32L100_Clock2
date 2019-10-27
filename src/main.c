@@ -322,10 +322,13 @@ int main(void) {
 
 			if (updateDate) {
 				updateAndDisplayDate();
+				getSunriseAndSunset(sunriseStr,sunsetStr);
+				writeSunriseSunsetTime(52,132,sunriseStr,sunsetStr);
 				updateDate = false;
 			}
 
 			if (updateTemp) {
+				getWeatherData();
 				getCurrentTemp(tempStr);
 				displayTemp(tempStr);
 				updateTemp = false;

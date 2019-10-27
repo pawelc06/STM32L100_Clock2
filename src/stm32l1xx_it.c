@@ -187,7 +187,7 @@ void RTC_WKUP_IRQHandler(void) {
 		//displayTime();
 		ssTogle++;
 		playTime++;
-		if (ssTogle % 60 == 0) {
+		if (ssTogle % 120 == 0) {
 			updateTemp = true;
 		}
 	}
