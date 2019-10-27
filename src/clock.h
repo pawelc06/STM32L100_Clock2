@@ -21,6 +21,7 @@ uint8_t getDayOfWeekNum(char *buf);
 uint8_t getMonthNum(char *buf);
 void writeSunriseSunsetTime(u16 xpos, u16 ypos, char *sunriseStr,char * sunsetStr) ;
 char NthDate(int year, char month, char DOW, char NthWeek);
+bool isDSTRTC(RTC_DateTypeDef *RTC_DateStruct);
 bool isDST(struct tm timeToCheck);
 char dow(int y, char m, char d);
 

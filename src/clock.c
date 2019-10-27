@@ -24,7 +24,7 @@ void displayDate() {
 
 	day = RTC_DateStruct.RTC_Date;
 
-	LCD_Write_Date(58, 85, &RTC_DateStruct);
+	LCD_Write_Date(78, 85, &RTC_DateStruct);
 
 }
 
@@ -45,11 +45,14 @@ void writeSunriseSunsetTime(u16 xpos, u16 ypos, char *sunriseStr,char * sunsetSt
 
 
 			tft_puts(xpos, ypos, sunriseStr, white, black);
-			xpos+=160;
+			xpos+=180;
 			tft_puts(xpos, ypos, sunsetStr, white, black);
 
 }
 
+void displayTemp(char *tempStr){
+	LCD_Write_Curr_Temp(95, 170, tempStr);
+}
 
 void updateAndDisplayDate() {
 
@@ -131,6 +134,12 @@ uint8_t parseNTPTime(char *buf, RTC_DateTypeDef *RTC_DateStruct,
 		RTC_TimeStructure->RTC_Hours = dec2bcd(hour);
 		RTC_TimeStructure->RTC_Minutes = dec2bcd(min);
 		RTC_TimeStructure->RTC_Seconds = dec2bcd(sec);
+
+		//DST adjunsmtent
+		if(isDSTRTC(RTC_DateStruct)){
+			RTC_TimeStructure->RTC_Hours+=1;
+		}
+
 		return 0;
 	}
 
@@ -229,6 +238,38 @@ bool isDST(struct tm timeToCheck){
 	if((timeToCheck.tm_mon == 9)){ //Date in October
 		lastSundayDay = NthDate(timeToCheck.tm_year+1900, timeToCheck.tm_mon+1, 0, 4);
 		if(timeToCheck.tm_mday < lastSundayDay){
+					return true;
+				} else {
+					return false;
+				}
+	}
+
+
+
+}
+
+bool isDSTRTC(RTC_DateTypeDef *RTC_DateStruct){
+	char lastSundayDay;
+	if(RTC_DateStruct->RTC_Month-1 >=3 && RTC_DateStruct->RTC_Month-1 <=8 ){ //DST is from April to September always
+		return true;
+	}
+
+	if((RTC_DateStruct->RTC_Month-1 >=0 && RTC_DateStruct->RTC_Month-1 <=1) || (RTC_DateStruct->RTC_Month-1 >=10 && RTC_DateStruct->RTC_Month-1 <=11)){ //no DST
+			return false;
+	}
+
+	if((RTC_DateStruct->RTC_Month-1 == 3)){ //Date in April
+		lastSundayDay = NthDate(RTC_DateStruct->RTC_Year+2000, RTC_DateStruct->RTC_Month, 0, 4);
+		if(RTC_DateStruct->RTC_Date < lastSundayDay){
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	if((RTC_DateStruct->RTC_Month-1 == 9)){ //Date in October
+		lastSundayDay = NthDate(RTC_DateStruct->RTC_Year+2000, RTC_DateStruct->RTC_Month, 0, 4);
+		if(RTC_DateStruct->RTC_Date < lastSundayDay){
 					return true;
 				} else {
 					return false;

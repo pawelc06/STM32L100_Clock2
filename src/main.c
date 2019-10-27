@@ -239,7 +239,7 @@ int main(void) {
 
 	LCD_BMP(100, 205, "bell5.bmp");
 	LCD_BMP(8,128, "sunr.bmp");
-	LCD_BMP(160, 128, "suns.bmp");
+	LCD_BMP(185, 128, "suns.bmp");
 
 	init_usart_clocks();
 	init_usart_gpio();
@@ -297,7 +297,7 @@ int main(void) {
 	NEC_Init();
 
 	displayDate();
-	LCD_Write_Curr_Temp(55, 170, tempStr);
+	displayTemp(tempStr);
 
 	mode = 0;
 	displayTime();
@@ -325,7 +325,7 @@ int main(void) {
 
 			if (updateTemp) {
 				getCurrentTemp(tempStr);
-				LCD_Write_Curr_Temp(55, 170, tempStr);
+				displayTemp(tempStr);
 				updateTemp = false;
 			}
 

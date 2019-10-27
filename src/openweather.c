@@ -1,4 +1,5 @@
 #include "openweather.h"
+#include "clock.h"
 
 extern char rxBuffer[];
 extern bool rxMsgReady;
@@ -123,7 +124,7 @@ void setCurrentTime() {
 
 	rxBufferFlush();
 	print(
-			"AT+CIPSNTPCFG=1,2,\"0.pl.pool.ntp.org\",\"ntp.itl.waw.pl\",\"vega.cbk.poznan.pl\"\r\n");
+			"AT+CIPSNTPCFG=1,1,\"0.pl.pool.ntp.org\",\"ntp.itl.waw.pl\",\"vega.cbk.poznan.pl\"\r\n");
 
 	while (rxMsgReady == false)
 		;
@@ -210,8 +211,10 @@ void getSunriseAndSunset(char *sunriseStr,char * sunsetStr) {
 	char *tempStrPtr;
 
 	time_t     sunsetTime,sunriseTime ;
+	time_t timeStructure1,timeStructure2;
 	struct tm  sunsetUtcStruct;
 	struct tm  sunriseUtcStruct;
+	struct tm  time1,time2;
     char       buf[80];
 
 	tempStrPtr = strstr(uartResp, "\"sunrise\":");
@@ -230,7 +233,11 @@ void getSunriseAndSunset(char *sunriseStr,char * sunsetStr) {
 		sunSetTimestamp = atol(tempStr);
 	}
 
-	if(isDST(sunRiseTimestamp+3600)){
+	timeStructure1 = (time_t) sunRiseTimestamp;
+			time1 = *localtime(&timeStructure1);
+			bool isDst = isDST(time1);
+
+	if(isDst){
 		sunriseTime = sunRiseTimestamp+7200;
 		sunsetTime = sunSetTimestamp+7200;
 	} else {
