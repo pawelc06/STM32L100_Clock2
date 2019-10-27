@@ -24,4 +24,5 @@ char NthDate(int year, char month, char DOW, char NthWeek);
 bool isDSTRTC(RTC_DateTypeDef *RTC_DateStruct);
 bool isDST(struct tm timeToCheck);
 char dow(int y, char m, char d);
+void displayTemp(char *tempStr);
 

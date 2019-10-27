@@ -241,6 +241,8 @@ int main(void) {
 	LCD_BMP(8,128, "sunr.bmp");
 	LCD_BMP(185, 128, "suns.bmp");
 
+	LCD_BMP(60, 170, "temp2.bmp");
+
 	init_usart_clocks();
 	init_usart_gpio();
 	init_usart();
