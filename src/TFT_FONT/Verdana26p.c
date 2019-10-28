@@ -3630,7 +3630,8 @@ const FONT_INFO Verdana26ptFontInfo =
     35,  // Character height
     '!',  //  Start character 
     4,  //  number of pixels of interspace between characters
-    33,  // number of pixels of space character
+    //33,  // number of pixels of space character
+	20,
     Verdana26ptDescriptors, // Character descriptor array
     Verdana26ptBitmaps, // Character bitmap array
     0 // (Pointer) Font filename saved on SD card or 0 (null) otherwise 

@@ -235,9 +235,9 @@ int main(void) {
 	tft_puts(139, 0, ":", white, black);
 
 	setCurrentFont(&Verdana26ptFontInfo);
-	tft_puts(192, 205, ":", red, black);
+	tft_puts(188, 205, ":", red, black);
 
-	LCD_BMP(100, 205, "bell5.bmp");
+	LCD_BMP(96, 205, "bell5.bmp");
 	LCD_BMP(8,128, "sunr.bmp");
 	LCD_BMP(185, 128, "suns.bmp");
 
@@ -322,6 +322,7 @@ int main(void) {
 
 			if (updateDate) {
 				updateAndDisplayDate();
+				getWeatherData();
 				getSunriseAndSunset(sunriseStr,sunsetStr);
 				writeSunriseSunsetTime(52,132,sunriseStr,sunsetStr);
 				updateDate = false;

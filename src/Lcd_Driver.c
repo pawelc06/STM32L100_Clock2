@@ -1236,7 +1236,7 @@ void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
 
 
 
-	uint8_t short_break = 21;
+	uint8_t short_break = 20;
 
 	u16 hh = 14;
 	u16 mm = 33;

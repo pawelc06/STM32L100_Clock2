@@ -43,10 +43,10 @@ void displayAlarm() {
 
 void writeSunriseSunsetTime(u16 xpos, u16 ypos, char *sunriseStr,char * sunsetStr) {
 
-
-			tft_puts(xpos, ypos, sunriseStr, white, black);
-			xpos+=180;
-			tft_puts(xpos, ypos, sunsetStr, white, black);
+	setCurrentFont(&Verdana26ptFontInfo);
+	tft_puts(xpos, ypos, sunriseStr, white, black);
+	xpos+=180;
+	tft_puts(xpos, ypos, sunsetStr, white, black);
 
 }
 
@@ -64,7 +64,7 @@ void updateAndDisplayDate() {
 
 	day = RTC_DateStruct.RTC_Date;
 
-	LCD_Write_Date(55, 100, &RTC_DateStruct);
+	LCD_Write_Date(78, 85, &RTC_DateStruct);
 
 }
 

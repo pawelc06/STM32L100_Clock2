@@ -200,7 +200,7 @@ void getCurrentTemp(char *tempStr) {
 		//temp = atof(tempStr)-273;
 		sscanf(tempStr, "%f", &temp);
 		temp = temp - 273;
-		sprintf(tempStr, "%.1f~C", temp);
+		sprintf(tempStr, "%.1f~C ", temp);
 	}
 }
 
