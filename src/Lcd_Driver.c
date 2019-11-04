@@ -898,7 +898,7 @@ void writeWeekDay(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct,
 		tft_puts(xpos, ypos, "            ", white, black);
 
 	} else {
-
+		/*
 		switch (RTC_DateStruct->RTC_WeekDay) {
 		case 1:
 			tft_puts(xpos, ypos, "poniedzialek", white, black);
@@ -925,6 +925,33 @@ void writeWeekDay(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct,
 			tft_puts(xpos, ypos, "error       ", white, black);
 			break;
 		}
+		*/
+		switch (RTC_DateStruct->RTC_WeekDay) {
+				case 1:
+					tft_puts(xpos, ypos, "Pon", white, black);
+					break;
+				case 2:
+					tft_puts(xpos, ypos, "Wt ", white, black);
+					break;
+				case 3:
+					tft_puts(xpos, ypos, "Sr ", white, black);
+					break;
+				case 4:
+					tft_puts(xpos, ypos, "Czw", white, black);
+					break;
+				case 5:
+					tft_puts(xpos, ypos, "Pt ", white, black);
+					break;
+				case 6:
+					tft_puts(xpos, ypos, "Sob", white, black);
+					break;
+				case 7:
+					tft_puts(xpos, ypos, "Nd ", white, black);
+					break;
+				default:
+					tft_puts(xpos, ypos, "error       ", white, black);
+					break;
+				}
 	}
 }
 
@@ -987,11 +1014,11 @@ void LCD_Write_Date(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct, bool f
 
 		tft_puts(xpos, ypos, dStr, white, black);
 
-		ypos += 32;
+		//ypos += 32;
 
 
-
-		//writeWeekDay(xposInit, ypos, RTC_DateStruct, 1);
+		xposInit = xpos+60;
+		writeWeekDay(xposInit, ypos, RTC_DateStruct, 1);
 
 		break;
 
@@ -1072,8 +1099,9 @@ void LCD_Write_Date(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct, bool f
 		xpos = xpos + short_break;
 		xpos = xpos + 2 * short_break;
 		xpos = xpos + short_break;
-		ypos += 32;
-		//writeWeekDay(xposInit, ypos, RTC_DateStruct, blink);
+		//ypos += 32;
+		xposInit = xpos+60;
+		writeWeekDay(xposInit, ypos, RTC_DateStruct, blink);
 		break;
 	default:
 		break;

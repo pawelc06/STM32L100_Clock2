@@ -369,7 +369,7 @@ void TIM2_IRQHandler(void) {
 				weekday = RTC_DateStructure.RTC_WeekDay;
 				weekday = (weekday + 1) % 8;
 				if (!weekday)
-					weekday = 1;
+					weekday = 7;
 				RTC_DateStructure.RTC_WeekDay = weekday;
 				break;
 
@@ -485,8 +485,8 @@ void TIM2_IRQHandler(void) {
 			case 6: //day of the week
 				weekday = RTC_DateStructure.RTC_WeekDay;
 				weekday = weekday - 1;
-				if (!day)
-					day = 1;
+				if (!weekday)
+						weekday = 7;
 				RTC_DateStructure.RTC_WeekDay = weekday;
 				break;
 

@@ -24,7 +24,8 @@ void displayDate(bool forceNoBlink) {
 
 	day = RTC_DateStruct.RTC_Date;
 
-	LCD_Write_Date(78, 85, &RTC_DateStruct,forceNoBlink);
+	//LCD_Write_Date(78, 85, &RTC_DateStruct,forceNoBlink);
+	LCD_Write_Date(35, 85, &RTC_DateStruct,forceNoBlink);
 
 }
 
@@ -64,7 +65,8 @@ void updateAndDisplayDate(bool forceNoBlink) {
 
 	day = RTC_DateStruct.RTC_Date;
 
-	LCD_Write_Date(78, 85, &RTC_DateStruct,forceNoBlink);
+	//LCD_Write_Date(78, 85, &RTC_DateStruct,forceNoBlink);
+	LCD_Write_Date(35, 85, &RTC_DateStruct,forceNoBlink);
 
 }
 
