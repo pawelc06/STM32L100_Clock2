@@ -50,7 +50,7 @@ volatile uint16_t sample;
 volatile uint8_t i;
 volatile uint8_t * wavPtr;
 volatile uint8_t * wavPtrBegin;
-volatile uint8_t playTime=0;
+volatile uint8_t playTime = 0;
 
 FIL plik;
 UINT bytesToRead, bytesRead;
@@ -304,26 +304,30 @@ void TIM2_IRQHandler(void) {
 		static uint8_t bstated = 0; //ostatnie stany przycisku
 		static uint8_t bstatem = 0; //ostatnie stany przycisku
 
+
 		if (remoteClickedMode) {
+			if ((mode >= 3) && (mode <= 6)) {
+					displayDate(true);
+			}
 			mode = (mode + 1) % 9;
 			remoteClickedMode = 0;
+
 		}
 
+
 		if (mode <= 2)
-						RTC_GetTime(RTC_Format_BCD, &RTC_TimeStructure);
+			RTC_GetTime(RTC_Format_BCD, &RTC_TimeStructure);
 
-					if (mode > 2 && mode < 7)
-						RTC_GetDate(RTC_Format_BIN, &RTC_DateStructure);
+		if (mode > 2 && mode < 7)
+			RTC_GetDate(RTC_Format_BIN, &RTC_DateStructure);
 
-					if (mode == 7 || mode == 8) {
-						RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
-					}
+		if (mode == 7 || mode == 8) {
+			RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
+		}
 
 		if (remoteClickedUp
 				|| ((bstateu = (bstateu << 1 & 0xf)
 						| (UP_BUTTON_GPIO_PORT->IDR >> BUTTON_UP & 1)) == 1)) {
-
-
 
 			switch (mode) {
 			case 1: //hours
@@ -398,15 +402,15 @@ void TIM2_IRQHandler(void) {
 			}
 
 			if (mode == 7 || mode == 8) {
-										RTC_WaitForSynchro(); // 1
-										RTC_AlarmCmd(RTC_Alarm_A , DISABLE);
-										RTC_WaitForSynchro(); // 2.
-										RTC_SetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
-										RTC_WaitForSynchro(); //3
-										RTC_AlarmCmd(RTC_Alarm_A, ENABLE);
+				RTC_WaitForSynchro(); // 1
+				RTC_AlarmCmd(RTC_Alarm_A, DISABLE);
+				RTC_WaitForSynchro(); // 2.
+				RTC_SetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
+				RTC_WaitForSynchro(); //3
+				RTC_AlarmCmd(RTC_Alarm_A, ENABLE);
 
-										updateAlarm = true;
-									}
+				updateAlarm = true;
+			}
 
 			/*
 			 if (toggleFlag) {
@@ -429,8 +433,6 @@ void TIM2_IRQHandler(void) {
 
 			// byl zwolniony, teraz jest wcisniety - zmiana stanu LED
 			//LED_PORT->ODR ^= 1 << GREEN_LED_BIT | 1 << BLUE_LED_BIT;
-
-
 
 			switch (mode) {
 			case 1:
@@ -527,40 +529,46 @@ void TIM2_IRQHandler(void) {
 			}
 
 			if (mode == 7 || mode == 8) {
-							RTC_WaitForSynchro(); // 1
-							RTC_AlarmCmd(RTC_Alarm_A | RTC_Alarm_B, DISABLE);
-							RTC_WaitForSynchro(); // 2.
-							RTC_SetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
-							RTC_WaitForSynchro(); //3
-							RTC_AlarmCmd(RTC_Alarm_A, ENABLE);
-							//RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
-							updateAlarm = true;
-						}
+				RTC_WaitForSynchro(); // 1
+				RTC_AlarmCmd(RTC_Alarm_A | RTC_Alarm_B, DISABLE);
+				RTC_WaitForSynchro(); // 2.
+				RTC_SetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
+				RTC_WaitForSynchro(); //3
+				RTC_AlarmCmd(RTC_Alarm_A, ENABLE);
+				//RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
+				updateAlarm = true;
+			}
 			remoteClickedDown = 0;
 
 			return;
 		}
 
 		/*************************************/
-		if (((bstatem = (bstatem << 1 & 0xf)
-				| (MODE_BUTTON_GPIO_PORT->IDR >> BUTTON_MODE & 1)) == 1)) {
-			//if(remoteClickedMode || ((bstatem = (bstatem << 1 & 0xf) || (MODE_BUTTON_GPIO_PORT->IDR >> BUTTON_MODE & 1)) == 1)) {
+		if (((bstatem = (bstatem << 1 & 0xf)| (MODE_BUTTON_GPIO_PORT->IDR >> BUTTON_MODE & 1)) == 1)) {
+	    //if(remoteClickedMode || ((bstatem = (bstatem << 1 & 0xf) || (MODE_BUTTON_GPIO_PORT->IDR >> BUTTON_MODE & 1)) == 1)) {
 
-
-			if(playTime>0){ //alarm switch off
-				playTime=60;
+			if (playTime > 0) { //alarm switch off
+				playTime = 60;
 				return;
 			}
 
+
+
+			if ((mode >= 1) && (mode <= 2)) {
+
+							displayTime();
+
+						}
+
+			if ((mode >= 3) && (mode <= 6)) {
+
+				displayDate(true);
+
+			}
 			mode = (mode + 1) % 9;
 
 
-			if ((mode == 0) || (mode == 6)){
 
-				displayDate();
-				displayTime();
-				displayAlarm();
-			}
 
 			if (toggleFlag) {
 				STM_EVAL_LEDOn(LED4);

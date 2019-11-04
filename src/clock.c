@@ -16,7 +16,7 @@ void displayTime() {
 
 }
 
-void displayDate() {
+void displayDate(bool forceNoBlink) {
 
 	RTC_DateTypeDef RTC_DateStruct;
 
@@ -24,7 +24,7 @@ void displayDate() {
 
 	day = RTC_DateStruct.RTC_Date;
 
-	LCD_Write_Date(78, 85, &RTC_DateStruct);
+	LCD_Write_Date(78, 85, &RTC_DateStruct,forceNoBlink);
 
 }
 
@@ -54,7 +54,7 @@ void displayTemp(char *tempStr){
 	LCD_Write_Curr_Temp(95, 170, tempStr);
 }
 
-void updateAndDisplayDate() {
+void updateAndDisplayDate(bool forceNoBlink) {
 
 	RTC_DateTypeDef RTC_DateStruct;
 
@@ -64,7 +64,7 @@ void updateAndDisplayDate() {
 
 	day = RTC_DateStruct.RTC_Date;
 
-	LCD_Write_Date(78, 85, &RTC_DateStruct);
+	LCD_Write_Date(78, 85, &RTC_DateStruct,forceNoBlink);
 
 }
 

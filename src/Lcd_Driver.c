@@ -935,7 +935,7 @@ void LCD_Write_Curr_Temp(u16 xpos, u16 ypos, char *tempStr) {
 	tft_puts(xpos, ypos, tempStr, white, black);
 }
 
-void LCD_Write_Date(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct) {
+void LCD_Write_Date(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct, bool forceNoBlink) {
 	uint8_t year, month, day, weekday;
 	const u16 short_break = 17;
 	uint8_t yearStr[5];
@@ -959,7 +959,11 @@ void LCD_Write_Date(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct) {
 	setCurrentFont(&Verdana22ptFontInfo);
 	//setCurrentFont( &DefaultFontInfo);
 
-	blink = ((0x000F & ssTogle) % 2);
+	if(forceNoBlink){
+		blink = 1;
+	} else {
+		blink = ((0x000F & ssTogle) % 2);
+	}
 
 	switch (mode) {
 
@@ -1210,7 +1214,7 @@ void LCD_Write_TimeBCD2(u16 xpos, u16 ypos,
 		last_hours = hh;
 		last_minutes = mm;
 
-		displayDate();
+		displayDate(false);
 		break;
 	case 7:
 	case 8:

@@ -298,7 +298,7 @@ int main(void) {
 
 	NEC_Init();
 
-	displayDate();
+	displayDate(true);
 	displayTemp(tempStr);
 
 	mode = 0;
@@ -321,7 +321,7 @@ int main(void) {
 			}
 
 			if (updateDate) {
-				updateAndDisplayDate();
+				updateAndDisplayDate(false);
 				getWeatherData();
 				getSunriseAndSunset(sunriseStr,sunsetStr);
 				writeSunriseSunsetTime(52,132,sunriseStr,sunsetStr);
