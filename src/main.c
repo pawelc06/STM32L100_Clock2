@@ -307,7 +307,7 @@ int main(void) {
 
 	RTC_AlarmConfig();
 
-	displayAlarm();
+	displayAlarm(true);
 
 	mode = 0; //alarm set
 
@@ -339,7 +339,7 @@ int main(void) {
 		}
 
 		if (updateAlarm) {
-			displayAlarm();
+			displayAlarm(false);
 			updateAlarm = false;
 		}
 

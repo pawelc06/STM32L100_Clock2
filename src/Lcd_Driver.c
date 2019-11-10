@@ -1222,7 +1222,7 @@ void LCD_Write_TimeBCD2(u16 xpos, u16 ypos,
 		break;
 	case 7:
 	case 8:
-		displayAlarm();
+		displayAlarm(false);
 		break;
 
 	default:
@@ -1236,7 +1236,7 @@ void LCD_Write_TimeBCD2(u16 xpos, u16 ypos,
 }
 
 void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
-		RTC_AlarmTypeDef * RTC_AlarmStructure) {
+		RTC_AlarmTypeDef * RTC_AlarmStructure,bool forceNoBlink) {
 
 
 	unsigned char datah[4];
@@ -1257,7 +1257,11 @@ void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
 	hh = RTC_AlarmStructure->RTC_AlarmTime.RTC_Hours;
 	mm = RTC_AlarmStructure->RTC_AlarmTime.RTC_Minutes;
 
-	blink = ((0x000F & ssTogle) % 2);
+	if(forceNoBlink){
+		blink = 0;
+	} else {
+		blink = ((0x000F & ssTogle) % 2);
+	}
 
 	//hours
 	datah[0]  = (hh >> 4) + 48;

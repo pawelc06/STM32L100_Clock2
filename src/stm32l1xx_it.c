@@ -310,8 +310,16 @@ void TIM2_IRQHandler(void) {
 
 
 		if (remoteClickedMode) {
+			if ((mode >= 1) && (mode <= 2)) {
+				displayTime(true);
+			}
+
 			if ((mode >= 3) && (mode <= 6)) {
-					displayDate(true);
+				displayDate(true);
+			}
+
+			if ( mode >= 7 ) {
+				displayAlarm(true);
 			}
 			mode = (mode + 1) % 9;
 			remoteClickedMode = 0;
@@ -559,15 +567,15 @@ void TIM2_IRQHandler(void) {
 
 
 			if ((mode >= 1) && (mode <= 2)) {
-
 							displayTime(true);
-
-						}
+			}
 
 			if ((mode >= 3) && (mode <= 6)) {
-
 				displayDate(true);
+			}
 
+			if ( mode >= 7 ) {
+				displayAlarm(true);
 			}
 			mode = (mode + 1) % 9;
 

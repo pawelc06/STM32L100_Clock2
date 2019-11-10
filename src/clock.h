@@ -16,6 +16,7 @@ uint8_t dec2bcd(uint8_t numberdec);
 void displayDate(bool forceNoBlink);
 void updateAndDisplayDate(bool forceNoBlink);
 void displayTime(bool forceNoBlink);
+void displayAlarm(bool forceNoBlink);
 uint8_t parseNTPTime(char *buf,RTC_DateTypeDef *RTC_DateStruct, RTC_TimeTypeDef  *RTC_TimeStructure);
 uint8_t getDayOfWeekNum(char *buf);
 uint8_t getMonthNum(char *buf);

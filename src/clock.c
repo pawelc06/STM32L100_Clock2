@@ -29,16 +29,13 @@ void displayDate(bool forceNoBlink) {
 
 }
 
-void displayAlarm() {
+void displayAlarm(bool forceNoBlink) {
 
 	RTC_AlarmTypeDef RTC_AlarmStructure;
 	//RTC_WaitForSynchro(); // 2.
 	RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
 	//RTC_WaitForSynchro(); // 2.
-
-
-
-	LCD_Write_AlarmTimeBCD2(100, 205, &RTC_AlarmStructure);
+	LCD_Write_AlarmTimeBCD2(100, 205, &RTC_AlarmStructure,forceNoBlink);
 
 }
 
