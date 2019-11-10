@@ -926,6 +926,7 @@ void writeWeekDay(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct,
 			break;
 		}
 		*/
+		tft_puts(xpos, ypos, "            ", white, black);
 		switch (RTC_DateStruct->RTC_WeekDay) {
 				case 1:
 					tft_puts(xpos, ypos, "Pon", white, black);

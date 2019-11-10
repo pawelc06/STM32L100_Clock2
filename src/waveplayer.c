@@ -14,6 +14,7 @@ extern bool updated;
 extern uint8_t * wavPtr;
 extern uint8_t * wavPtrBegin;
 extern uint8_t playTime;
+volatile bool isAlarmPlaying = false;
 
 
 #ifdef SAMPLE_WIDTH_16
@@ -197,6 +198,7 @@ void playWav(uint8_t * name) {
 	canRead = false;
 	i = 0;
 	playTime=0;
+	isAlarmPlaying = true;
 
 	while (playTime<60) {
 		if (canRead == true) {
@@ -219,6 +221,7 @@ void playWav(uint8_t * name) {
 
 	}
 
+	isAlarmPlaying = false;
 	DAC_Cmd(DAC_Channel_1, DISABLE);
 	DMA_Cmd(DMA1_Channel2, DISABLE);
 	DMA_ITConfig(DMA1_Channel2, DMA_IT_TC, DISABLE);

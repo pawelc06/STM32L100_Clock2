@@ -68,6 +68,7 @@ extern volatile u8 mode, remoteClickedMode, remoteClickedUp, remoteClickedDown;
 unsigned char Num[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 volatile bool updated = true;
 volatile bool alarmRunning = false;
+
 volatile bool updateTemp = false;
 volatile bool updateDate = false;
 volatile bool updateAlarm = false;

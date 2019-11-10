@@ -44,6 +44,7 @@ extern uint8_t remoteClickedMode;
 extern uint8_t remoteClickedUp;
 extern uint8_t remoteClickedDown;
 extern bool alarmRunning;
+extern bool isAlarmPlaying;
 
 extern uint16_t ssTogle;
 volatile uint16_t sample;
@@ -51,6 +52,7 @@ volatile uint8_t i;
 volatile uint8_t * wavPtr;
 volatile uint8_t * wavPtrBegin;
 volatile uint8_t playTime = 0;
+
 
 FIL plik;
 UINT bytesToRead, bytesRead;
@@ -186,7 +188,9 @@ void RTC_WKUP_IRQHandler(void) {
 		updated = true;
 		//displayTime();
 		ssTogle++;
-		playTime++;
+		if(isAlarmPlaying){
+			playTime++;
+		}
 		if (ssTogle % 120 == 0) {
 			updateTemp = true;
 		}
@@ -547,7 +551,7 @@ void TIM2_IRQHandler(void) {
 		if (((bstatem = (bstatem << 1 & 0xf)| (MODE_BUTTON_GPIO_PORT->IDR >> BUTTON_MODE & 1)) == 1)) {
 	    //if(remoteClickedMode || ((bstatem = (bstatem << 1 & 0xf) || (MODE_BUTTON_GPIO_PORT->IDR >> BUTTON_MODE & 1)) == 1)) {
 
-			if (playTime > 0) { //alarm switch off
+			if (isAlarmPlaying && playTime > 0) { //alarm switch off
 				playTime = 60;
 				return;
 			}
