@@ -560,7 +560,7 @@ void TIM2_IRQHandler(void) {
 
 			if ((mode >= 1) && (mode <= 2)) {
 
-							displayTime();
+							displayTime(true);
 
 						}
 

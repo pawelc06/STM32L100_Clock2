@@ -197,7 +197,6 @@ void getCurrentTemp(char *tempStr) {
 	if (tempStrPtr) {
 		strncpy(tempStr, tempStrPtr + 7, 6);
 		tempStr[5] = 0;
-		//temp = atof(tempStr)-273;
 		sscanf(tempStr, "%f", &temp);
 		temp = temp - 273;
 		sprintf(tempStr, "%.1f~C ", temp);
@@ -211,10 +210,10 @@ void getSunriseAndSunset(char *sunriseStr,char * sunsetStr) {
 	char *tempStrPtr;
 
 	time_t     sunsetTime,sunriseTime ;
-	time_t timeStructure1,timeStructure2;
+	time_t timeStructure1;
 	struct tm  sunsetUtcStruct;
 	struct tm  sunriseUtcStruct;
-	struct tm  time1,time2;
+	struct tm  time1;
     char       buf[80];
 
 	tempStrPtr = strstr(uartResp, "\"sunrise\":");
@@ -245,11 +244,7 @@ void getSunriseAndSunset(char *sunriseStr,char * sunsetStr) {
 		sunsetTime = sunSetTimestamp+3600;
 	}
 
-	    // Get current time
-	    //time(&now);
 
-
-	    // Format time, "ddd yyyy-mm-dd hh:mm:ss zzz"
 	sunriseUtcStruct = *localtime(&sunriseTime);
 	sunsetUtcStruct = *localtime(&sunsetTime);
 

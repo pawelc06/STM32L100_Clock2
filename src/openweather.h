@@ -11,6 +11,8 @@
 #include "stm32l1xx.h"
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
+#include <stdlib.h>
 
 
 #define BUFFER_SIZE 2048

@@ -102,14 +102,6 @@ void playWav(uint8_t * name) {
 
 	TIM_ITConfig(TIM6, TIM_IT_Update, ENABLE);
 
-	/* Enable the TIM6 Interrupt */
-	/*
-	 nvicStructure.NVIC_IRQChannel = TIM6_IRQn;
-	 nvicStructure.NVIC_IRQChannelPreemptionPriority = 0;
-	 nvicStructure.NVIC_IRQChannelSubPriority = 0;
-	 nvicStructure.NVIC_IRQChannelCmd = ENABLE;
-	 NVIC_Init(&nvicStructure);
-	 */
 
 	/* TIM6 enable counter */
 	TIM_Cmd(TIM6, ENABLE);
@@ -121,7 +113,6 @@ void playWav(uint8_t * name) {
 	/* Noise Wave generator --------------------------------------------*/
 	/* DAC channel1 Configuration */
 
-	//DAC_InitStructure.DAC_Trigger = DAC_Trigger_T6_TRGO;
 	DAC_InitStructure.DAC_Trigger = DAC_Trigger_T6_TRGO;
 	DAC_InitStructure.DAC_WaveGeneration = DAC_WaveGeneration_None;
 	DAC_InitStructure.DAC_OutputBuffer = DAC_OutputBuffer_Enable;
@@ -361,7 +352,7 @@ void playWavFromMemory(uint8_t * memBuffer) {
 
 	while (1) {
 		if (updated) {
-					displayTime();
+					displayTime(false);
 					updated = false;
 				}
 

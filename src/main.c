@@ -61,7 +61,7 @@ GPIO_InitTypeDef GPIO_InitStructure;
 
 //void Delayms(__IO uint32_t nCount);
 
-extern day;
+
 extern volatile u8 mode, remoteClickedMode, remoteClickedUp, remoteClickedDown;
 
 
@@ -303,7 +303,7 @@ int main(void) {
 	displayTemp(tempStr);
 
 	mode = 0;
-	displayTime();
+	displayTime(true);
 
 	RTC_AlarmConfig();
 
@@ -313,7 +313,7 @@ int main(void) {
 
 	while (1) {
 		if (updated) {
-			displayTime();
+			displayTime(false);
 			updated = false;
 
 			if (alarmRunning) {

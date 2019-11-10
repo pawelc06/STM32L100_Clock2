@@ -126,6 +126,7 @@ unsigned int Lcd_ReadPoint(u16 x,u16 y);
 char readID(void);
 char Read_Register(char Addr, char xParameter);
 static uint8_t spi_readwrite(uint32_t spi, uint8_t data);
+void LCD_Write_TimeBCD2(u16 xpos,u16 ypos,RTC_TimeTypeDef * RTC_TimeStructure1,bool forceNoBlink);
 void LCD_Write_TimeBCD(u16 xpos,u16 ypos,RTC_TimeTypeDef * RTC_TimeStructure1);
 void LCD_Write_AlarmTimeBCD2(u16 xpos,u16 ypos,RTC_AlarmTypeDef * RTC_AlarmStructure);
 void LCD_Write_Colon(u16 xpos,u16 ypos);

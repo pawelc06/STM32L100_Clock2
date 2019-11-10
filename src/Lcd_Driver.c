@@ -898,34 +898,6 @@ void writeWeekDay(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct,
 		tft_puts(xpos, ypos, "            ", white, black);
 
 	} else {
-		/*
-		switch (RTC_DateStruct->RTC_WeekDay) {
-		case 1:
-			tft_puts(xpos, ypos, "poniedzialek", white, black);
-			break;
-		case 2:
-			tft_puts(xpos, ypos, "wtorek      ", white, black);
-			break;
-		case 3:
-			tft_puts(xpos, ypos, "sroda       ", white, black);
-			break;
-		case 4:
-			tft_puts(xpos, ypos, "czwartek    ", white, black);
-			break;
-		case 5:
-			tft_puts(xpos, ypos, "piatek      ", white, black);
-			break;
-		case 6:
-			tft_puts(xpos, ypos, "sobota      ", white, black);
-			break;
-		case 7:
-			tft_puts(xpos, ypos, "niedziela   ", white, black);
-			break;
-		default:
-			tft_puts(xpos, ypos, "error       ", white, black);
-			break;
-		}
-		*/
 		tft_puts(xpos, ypos, "            ", white, black);
 		switch (RTC_DateStruct->RTC_WeekDay) {
 				case 1:
@@ -1112,7 +1084,7 @@ void LCD_Write_Date(u16 xpos, u16 ypos, RTC_DateTypeDef * RTC_DateStruct, bool f
 }
 
 void LCD_Write_TimeBCD2(u16 xpos, u16 ypos,
-		RTC_TimeTypeDef * RTC_TimeStructure1) {
+		RTC_TimeTypeDef * RTC_TimeStructure1,bool forceNoBlink) {
 
 	unsigned char datas[6];
 	unsigned char datah[3];
@@ -1134,7 +1106,11 @@ void LCD_Write_TimeBCD2(u16 xpos, u16 ypos,
 	mm = RTC_TimeStructure1->RTC_Minutes;
 	ss = RTC_TimeStructure1->RTC_Seconds;
 
-	blink = ((0x000F & ssTogle) % 2);
+	if(forceNoBlink){
+			blink = 0;
+		} else {
+			blink = ((0x000F & ssTogle) % 2);
+		}
 
 	//hours
 
@@ -1183,7 +1159,6 @@ void LCD_Write_TimeBCD2(u16 xpos, u16 ypos,
 		break;
 	case 1:
 		if (blink) {
-			//Gui_DrawFont_Num32(xpos,ypos,RED,GRAY0,15);
 			tft_puts(xpos, ypos, "  ", color, bkColor);
 
 			xpos = xpos + 2 * short_break;

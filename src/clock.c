@@ -5,14 +5,14 @@
 
 volatile uint8_t day = 0;
 
-void displayTime() {
+void displayTime(bool forceNoBlink) {
 	uint8_t rtc_time = 0;
 
 	RTC_TimeTypeDef RTC_TimeStructure1;
 
 	RTC_GetTime(RTC_Format_BCD, &RTC_TimeStructure1);
 
-	LCD_Write_TimeBCD2(45, 0, &RTC_TimeStructure1);
+	LCD_Write_TimeBCD2(45, 0, &RTC_TimeStructure1,forceNoBlink);
 
 }
 
