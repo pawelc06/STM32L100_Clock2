@@ -7,6 +7,7 @@
 #include "clock.h"
 
 extern bool updateDate;
+extern volatile bool isAlarmOn;
 
 //  Pin2		CS
 //	Pin3		SCL
@@ -38,6 +39,7 @@ volatile u8 mode = 0;
 volatile u8 remoteClickedMode = 0;
 volatile u8 remoteClickedUp = 0;
 volatile u8 remoteClickedDown = 0;
+
 
 //uint8_t Red, Green, Blue;
 uint16_t Color;
@@ -1222,6 +1224,7 @@ void LCD_Write_TimeBCD2(u16 xpos, u16 ypos,
 		break;
 	case 7:
 	case 8:
+	case 9:
 		displayAlarm(false);
 		break;
 
@@ -1304,6 +1307,14 @@ void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
 		if (last_alarm_minutes != mm)
 			tft_puts(xpos, ypos, datam, color, bkColor);
 
+		xpos = xpos + 3 * short_break;
+		if(isAlarmOn){
+
+			tft_puts(xpos, ypos, "*", color, bkColor);
+		} else {
+			tft_puts(xpos, ypos, "  ", color, bkColor);
+		}
+
 		last_alarm_hours = hh;
 		last_alarm_minutes = mm;
 
@@ -1344,6 +1355,28 @@ void LCD_Write_AlarmTimeBCD2(u16 xpos, u16 ypos,
 		} else {
 
 			tft_puts(xpos, ypos, datam, color, bkColor);
+
+		}
+		break;
+	case 9://alarm on/off
+		tft_puts(xpos, ypos, datah, color, bkColor);
+
+		xpos = xpos + 3 * short_break;
+		//colon
+		tft_puts(xpos, ypos, datam, color, bkColor);
+
+		xpos = xpos + 3 * short_break;
+		if (blink) {
+
+			tft_puts(xpos, ypos, "  ", color, bkColor);
+
+		} else {
+
+			if(isAlarmOn){
+				tft_puts(xpos, ypos, "*", color, bkColor);
+			} else {
+				tft_puts(xpos, ypos, "*", gray, bkColor);
+			}
 
 		}
 		break;

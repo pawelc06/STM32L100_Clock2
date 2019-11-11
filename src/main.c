@@ -68,6 +68,7 @@ extern volatile u8 mode, remoteClickedMode, remoteClickedUp, remoteClickedDown;
 unsigned char Num[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 volatile bool updated = true;
 volatile bool alarmRunning = false;
+volatile bool isAlarmOn = true;
 
 volatile bool updateTemp = false;
 volatile bool updateDate = false;
@@ -316,7 +317,7 @@ int main(void) {
 			displayTime(false);
 			updated = false;
 
-			if (alarmRunning) {
+			if (isAlarmOn && alarmRunning) {
 				alarmRunning = false;
 				playWav("m8m.wav");
 			}

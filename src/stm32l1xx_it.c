@@ -45,6 +45,7 @@ extern uint8_t remoteClickedUp;
 extern uint8_t remoteClickedDown;
 extern bool alarmRunning;
 extern bool isAlarmPlaying;
+extern volatile bool isAlarmOn;
 
 extern uint16_t ssTogle;
 volatile uint16_t sample;
@@ -321,7 +322,7 @@ void TIM2_IRQHandler(void) {
 			if ( mode >= 7 ) {
 				displayAlarm(true);
 			}
-			mode = (mode + 1) % 9;
+			mode = (mode + 1) % 10;
 			remoteClickedMode = 0;
 
 		}
@@ -400,6 +401,9 @@ void TIM2_IRQHandler(void) {
 				min = dec2bcd(min);
 				RTC_AlarmStructure.RTC_AlarmTime.RTC_Minutes = min;
 				break;
+			case 9:
+				isAlarmOn = true;
+				break;
 
 			default:
 				break;
@@ -413,7 +417,7 @@ void TIM2_IRQHandler(void) {
 				updated = true;
 			}
 
-			if (mode == 7 || mode == 8) {
+			if ((mode == 7) || (mode == 8)) {
 				RTC_WaitForSynchro(); // 1
 				RTC_AlarmCmd(RTC_Alarm_A, DISABLE);
 				RTC_WaitForSynchro(); // 2.
@@ -423,6 +427,9 @@ void TIM2_IRQHandler(void) {
 
 				updateAlarm = true;
 			}
+
+			if(mode == 9)
+				updateAlarm = true;
 
 			/*
 			 if (toggleFlag) {
@@ -527,6 +534,9 @@ void TIM2_IRQHandler(void) {
 				min = dec2bcd(min);
 				RTC_AlarmStructure.RTC_AlarmTime.RTC_Minutes = min;
 				break;
+			case 9:
+				isAlarmOn = false;
+				break;
 
 			default:
 				break;
@@ -540,7 +550,7 @@ void TIM2_IRQHandler(void) {
 				updated = true;
 			}
 
-			if (mode == 7 || mode == 8) {
+			if ((mode == 7) || (mode == 8) ) {
 				RTC_WaitForSynchro(); // 1
 				RTC_AlarmCmd(RTC_Alarm_A | RTC_Alarm_B, DISABLE);
 				RTC_WaitForSynchro(); // 2.
@@ -550,6 +560,9 @@ void TIM2_IRQHandler(void) {
 				//RTC_GetAlarm(RTC_Format_BCD, RTC_Alarm_A, &RTC_AlarmStructure);
 				updateAlarm = true;
 			}
+			if(mode ==9)
+				updateAlarm = true;
+
 			remoteClickedDown = 0;
 
 			return;
@@ -577,7 +590,7 @@ void TIM2_IRQHandler(void) {
 			if ( mode >= 7 ) {
 				displayAlarm(true);
 			}
-			mode = (mode + 1) % 9;
+			mode = (mode + 1) % 10;
 
 
 
